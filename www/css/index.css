@@ -1,0 +1,48 @@
+/**
+ * File overview: uAg Basket View CSS
+ * Author: www.davidbourguignon.net
+ * Version 2012-09-06
+ */
+.folder, .file {
+    background-position: 50% 0%;
+    background-repeat: no-repeat;
+    margin: 2px;
+    padding-top: 25px;
+    text-align: center;
+    font-family: sans;
+    font-size: 10px;
+    word-wrap: break-word;
+    cursor: pointer;
+}
+
+.folder {
+    background-image: url('../images/folder-32x32.png');
+}
+
+.file {
+    background-image: url('../images/file-32x32.png');
+}
+
+.back {
+    background-color: rgb(235,235,235);
+    border: 1px dotted rgb(220,220,220);
+    font-family: arial;
+    font-weight: bolder;
+}
+
+/**
+ * Reference: http://stackoverflow.com/questions/11924743/navbar-buttons-stay-pressed
+ */
+/*.ui-footer .ui-navbar .ui-btn-active {
+    border: 1px solid #222;
+    background: #333333;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 -1px 1px #000;
+    background-image: -webkit-gradient(linear, left top, left bottom, from( #555), to( #333));
+    background-image: -webkit-linear-gradient(#555, #333);
+    background-image:    -moz-linear-gradient(#555, #333);
+    background-image:     -ms-linear-gradient(#555, #333);
+    background-image:      -o-linear-gradient(#555, #333);
+    background-image:         linear-gradient(#555, #333);
+}​*/

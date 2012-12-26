@@ -1,0 +1,303 @@
+<!--
+    File overview: uAg Basket View HTML
+    Author: www.davidbourguignon.net
+    Version: 2012-12-24
+-->
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>uAg Basket View</title>
+    <link type="text/css" charset="utf-8" href="css/jquery.mobile-1.1.1.css" rel="stylesheet" media="screen" title="no title" />
+    <link type="text/css" charset="utf-8" href="css/index.css" rel="stylesheet" media="screen" title="no title" />
+    <script type="text/javascript" charset="utf-8" src="js/jquery-1.7.1.js"></script>
+    <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+    <script type="text/javascript" charset="utf-8" src="barcodescanner.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/uri.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/jsv.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/json-schema-draft-03.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/uag-shims.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/uag-utils.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/uag-utils-file-explorer.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/uag-basket-model.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/uag-basket-controller.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/uag-basket-view.js"></script>
+    <!-- jQuery Mobile is called after registering callback for mobileinit event -->
+    <script type="text/javascript" src="js/jquery.mobile-1.1.1.js"></script>
+</head>
+<body>
+
+    <div id="home" data-role="page">
+        <div data-role="header" data-position="fixed" data-theme="a">
+            <a href="#info"
+               data-role="button"
+               data-icon="info"
+               data-iconpos="notext"
+               class="ui-btn-left">Info</a>
+            <h1>uAg Basket</h1>
+        </div><!-- /header -->
+        <div data-role="content" data-theme="c">
+            <img src="images/basket-650x650.jpg" alt="basket"
+                 style="display: block;
+                        margin-left: auto;
+                        margin-right: auto;
+                        width: 99%" />
+            <!-- TODO: same in english? -->
+            <!-- Source: http://www.dicocitations.com/citation.php?mot=panier -->
+            <p style="text-align:center;font-size:70%;">
+                L'été remplit sa grange, affaisse ses greniers&nbsp;;<br />
+                L'automne d'un doux poids fait gémir ses paniers&nbsp;;<br />
+                Et les derniers soleils, sur les côtes vineuses,<br />
+                Achèvent de mûrir les grappes paresseuses.<br />
+                &#150;&nbsp;Virgile, <em>Géorgiques</em><br />
+            </p>
+        </div><!-- /content -->
+        <div data-role="footer" data-position="fixed" data-theme="a">
+            <div data-role="navbar">
+                <ul>
+                    <li><a id ="home-new-btn"
+                           href="#edit"
+                           data-role="button">New</a></li>
+                    <li><a id="home-open-btn"
+                           href="#open"
+                           data-role="button">Open</a></li>
+                    <li><a id="home-import-btn"
+                           href="#import"
+                           data-role="button">Import</a></li>
+                </ul>
+            </div><!-- /navbar -->
+        </div><!-- /footer -->
+    </div><!-- /page -->
+
+    <div id="info" data-role="page">
+        <div data-role="header" data-theme="a">
+            <a href="#home"
+               data-role="button"
+               data-icon="delete"
+               data-iconpos="notext"
+               data-rel="back"
+               class="ui-btn-left">Cancel</a>
+            <h1>About</h1>
+        </div><!-- /header -->
+        <div data-role="content" data-theme="c">
+            <p>
+                The uAg Basket app is part of the
+                <a href="http://github.com/davidbourguignon/uag/"
+                data-rel="external">uAg Project</a>, a minimal
+                distributed mobile information system for managing
+                field-to-fork agricultural processes.
+            </p>
+            <p>Version: 0.1 pre</p>
+            <p>Author: <a href="http://github.com/davidbourguignon/"
+                          data-rel="external">David Bourguignon</a>.</p>
+            <p>
+                Device info:<br />
+                &nbsp;-&nbsp;Platform: <span id="device-platform"></span><br />
+                &nbsp;-&nbsp;Version: <span id="device-version"></span><br />
+                &nbsp;-&nbsp;UUID: <span id="device-uuid"></span><br />
+            </p>
+        </div><!-- /content -->
+    </div><!-- /page -->
+
+    <div id="edit" data-role="page">
+        <div data-role="header" data-position="fixed" data-theme="a">
+            <a href="#home"
+               data-role="button"
+               data-icon="delete"
+               data-iconpos="notext"
+               data-rel="back"
+               class="ui-btn-left">Cancel</a>
+            <h1>Edit basket</h1>
+        </div><!-- /header -->
+        <div data-role="content" data-theme="c">
+            <h3 id="edit-basket-title"></h3>
+            <ul id="edit-basket-listview" data-role="listview">
+                <!-- basket content -->
+            </ul>
+        </div><!-- /content -->
+        <div data-role="footer" data-position="fixed" data-theme="a">
+            <div data-role="navbar">
+                <ul>
+                    <li><a id ="edit-add-btn"
+                           href="#edit"
+                           data-role="button">Add</a></li>
+                    <li><a id ="edit-save-btn"
+                           href="#home"
+                           data-role="button">Save</a></li>
+                    <li><a id ="edit-remove-btn"
+                           href="#edit"
+                           data-role="button">Remove</a></li>
+                </ul>
+            </div><!-- /navbar -->
+        </div><!-- /footer -->
+    </div><!-- /page -->
+
+    <div id="product" data-role="page">
+        <div data-role="header" data-position="fixed" data-theme="a">
+            <a href="#edit"
+               data-role="button"
+               data-icon="delete"
+               data-iconpos="notext"
+               data-rel="back"
+               class="ui-btn-left">Cancel</a>
+            <h1>Edit product</h1>
+        </div><!-- /header -->
+        <div data-role="content" data-theme="c">
+<!-- TODO add title
+            <h4 id="product-title">
+                <span id="product-name-title"></span>,
+                <span id="product-weight-title"></span>
+            </h4>
+-->
+            <div data-role="fieldcontain">
+                <select id="product-isIn"
+                        name="product-isIn"
+                        data-role="slider"
+                        data-mini="true">
+                    <option value="false">Out</option>
+                    <option value="true">In</option>
+                </select>
+            </div>
+            <div data-role="fieldcontain">
+                <label for="product-name">Product name</label>
+                <input id="product-name"
+                       type="text"
+                       name="product-name"
+                       value="?"
+                       data-mini="true" />
+            </div>
+            <div data-role="fieldcontain">
+                <label for="product-producerName">Producer name</label>
+                <input id="product-producerName"
+                       type="text"
+                       name="product-producerName"
+                       value="?"
+                       data-mini="true" />
+            </div>
+            <div data-role="fieldcontain">
+                <!-- TODO set maximum weight 0 < w < 100 in options. Here 5. -->
+                <label for="product-weight">Product weight</label>
+                <input id="product-weight"
+                       type="range"
+                       name="product-weight"
+                       value="0"
+                       min="0"
+                       max="5"
+                       step="0.1"
+                       data-highlight="true"
+                       data-mini="true" />
+            </div>
+<!--
+            <div data-role="controlgroup">
+-->
+                <a id="product-tag-btn" href="#tag" data-role="button"></a>
+<!--
+                <a id="product-photos-btn" href="#" data-role="button">Photos</a>
+            </div>
+-->
+        </div><!-- /content -->
+        <div data-role="footer" data-position="fixed" data-theme="a">
+            <div data-role="navbar">
+                <ul>
+                    <li><a id ="product-update-btn"
+                           href="#edit"
+                           data-role="button">Update</a>
+                    <li><a id ="product-remove-btn"
+                           href="#edit"
+                           data-role="button">Remove</a></li>
+                </ul>
+            </div><!-- /navbar -->
+        </div><!-- /footer -->
+    </div><!-- /page -->
+
+    <div id="tag" data-role="page">
+        <div data-role="header" data-position="fixed" data-theme="a">
+            <a href="#product"
+               data-role="button"
+               data-icon="delete"
+               data-iconpos="notext"
+               data-rel="back"
+               class="ui-btn-left">Cancel</a>
+            <h1>Tag</h1>
+        </div><!-- /header -->
+        <div data-role="content" data-theme="c">
+            <div id="tag-div" style="display: block;
+                                     margin: auto">
+                <!-- tag content -->
+            </div>
+        </div><!-- /content -->
+    </div><!-- /page -->
+
+    <div id="open" data-role="page">
+        <div data-role="header" data-position="fixed" data-theme="a">
+            <a href="#home"
+               data-role="button"
+               data-icon="delete"
+               data-iconpos="notext"
+               data-rel="back"
+               class="ui-btn-left">Cancel</a>
+            <h1>Open basket</h1>
+        </div><!-- /header -->
+        <div data-role="content" data-theme="c">
+            <h3 id="open-basket-explorer-title"></h3>
+            <ul id="open-basket-explorer-listview" data-role="listview">
+                <!-- basket explorer content -->
+            </ul>
+        </div><!-- /content -->
+    </div><!-- /page -->
+
+    <div id="import" data-role="page">
+        <div data-role="header" data-position="fixed" data-theme="a">
+            <a href="#home"
+               data-role="button"
+               data-icon="delete"
+               data-iconpos="notext"
+               data-rel="back"
+               class="ui-btn-left">Cancel</a>
+            <h1>Import basket</h1>
+        </div><!-- /header -->
+        <div data-role="content" data-theme="c">
+            <div id="import-file-explorer-div" class="ui-grid-b">
+                <!-- file explorer content -->
+            </div>
+        </div><!-- /content -->
+    </div><!-- /page -->
+
+    <script>
+        (function() {
+            var view = uag.basket.View.getInstance();
+
+            // jQuery Mobile first
+            var $doc = $(document);
+            $doc.on('pageinit', view.onPageInit);
+            $doc.on('pagebeforechange', view.onPageBeforeChange);
+            $doc.on('pagechange', view.onPageChange);
+            $doc.on('pagechangefailed', view.onPageChangeFailed);
+
+            // Cordova second
+            document.addEventListener('deviceready', onDeviceReady, false);
+            document.addEventListener('pause', onPause, false);
+            document.addEventListener('resume', onResume, false);
+
+            // when the Cordova application is ready
+            function onDeviceReady() {
+                console.info('Info: deviceready event fired');
+                view.setOnDeviceReady();
+                window.localStorage.clear(); /////////////// TMP DEMO ONLY //////////////
+            }
+
+            // when the Cordova application is put into the background
+            function onPause() {
+                console.info('Info: pause event fired');
+            }
+
+            // when the Cordova application is retrieved from the background
+            function onResume() {
+                console.info('Info: resume event fired');
+            }
+        }());
+    </script>
+
+</body>
+</html>
